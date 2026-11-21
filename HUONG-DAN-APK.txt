@@ -1,0 +1,26 @@
+TAO FILE APK BANG GITHUB (khong can cai Android Studio)
+
+A. Dua code len GitHub (1 lan)
+ 1. Vao github.com, dang nhap, bam dau + goc tren phai > New repository.
+    Dat ten (vi du nhac-theo-qua), chon Private, bam Create repository.
+ 2. Trong trang repo vua tao bam "uploading an existing file".
+ 3. Mo thu muc du an tren may, bam Ctrl+A chon TAT CA file/thu muc ben trong
+    (khong chon cai thu muc cha), keo tha vao trang GitHub.
+    LUU Y: phai co thu muc ".github" (an). Neu keo tha khong len .github, xem muc C.
+ 4. Bam Commit changes.
+
+B. Lay file APK
+ 1. Tab "Actions" > bam "Build APK" ben trai > nut "Run workflow" > Run workflow.
+ 2. Doi 5-10 phut den khi co dau tich xanh. Bam vao lan chay do.
+ 3. Keo xuong muc "Artifacts" > tai "NhacTheoQua-apk" (file zip), giai nen ra NhacTheoQua.apk.
+ 4. Gui file apk sang dien thoai, mo len cai dat (cho phep "Cai ung dung khong ro nguon goc").
+
+C. Neu .github khong len duoc
+ Trong repo bam Add file > Create new file, go ten: .github/workflows/build-apk.yml
+ roi dan noi dung file .github/workflows/build-apk.yml cua du an vao, bam Commit.
+
+D. Dung app
+ 1. Tren may tinh bam dup BAT-LIVE-DIEN-THOAI.bat (Windows hoi Firewall thi bam Allow).
+ 2. Cua so den hien dong IPv4, vi du 192.168.1.5.
+ 3. Mo app tren dien thoai (cung Wi-Fi), nhap 192.168.1.5, bam Ket noi.
+ App nho dia chi, lan sau tu mo.

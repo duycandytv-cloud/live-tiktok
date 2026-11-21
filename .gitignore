@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.log
+.env*
+!.env.example
+.claude/settings.local.json
+settings.json
+data/
+android-app/node_modules/
+android-app/android/
