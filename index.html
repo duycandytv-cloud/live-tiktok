@@ -1,13 +1,87 @@
 <!doctype html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nhạc theo quà TikTok LIVE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;800;900&display=swap" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nhạc Theo Quà</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+         background:#0f1115; color:#f2f2f2; font-family:system-ui,sans-serif; padding:24px; }
+  .box { width:100%; max-width:420px; }
+  h1 { font-size:22px; margin:0 0 6px; }
+  p { color:#a9adb7; font-size:14px; line-height:1.5; margin:0 0 18px; }
+  input { width:100%; padding:14px; font-size:18px; border-radius:10px; border:1px solid #333a47;
+          background:#1a1e26; color:#fff; outline:none; }
+  input:focus { border-color:#4f8cff; }
+  button { width:100%; margin-top:12px; padding:14px; font-size:17px; border:0; border-radius:10px;
+           background:#4f8cff; color:#fff; font-weight:600; }
+  button.ghost { background:#262b36; color:#d0d4dd; }
+  .hint { font-size:13px; color:#7d8392; margin-top:14px; }
+  .err { color:#ff7b7b; font-size:14px; min-height:20px; margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>🎵 Nhạc Theo Quà</h1>
+  <p>Nhập địa chỉ IP của máy tính đang chạy <b>BAT-LIVE-DIEN-THOAI.bat</b> (điện thoại phải cùng Wi-Fi).</p>
+  <div id="auto" style="display:none">
+    <p>Đang mở <b id="saved"></b> ...</p>
+    <button class="ghost" id="change">Đổi địa chỉ</button>
+  </div>
+  <div id="form">
+    <input id="addr" inputmode="url" autocapitalize="off" autocomplete="off" placeholder="vd: 192.168.1.5">
+    <button id="go">Kết nối</button>
+    <div class="err" id="err"></div>
+    <div class="hint">Không cần gõ http:// hay :3007. Có thể nhập cả địa chỉ đầy đủ nếu dùng VPS.</div>
+  </div>
+</div>
+<script>
+(function () {
+  var KEY = 'server_addr';
+  var $ = function (id) { return document.getElementById(id); };
+
+  function normalize(v) {
+    v = (v || '').trim();
+    if (!v) return '';
+    if (!/^https?:\/\//i.test(v)) v = 'http://' + v;
+    // chưa có cổng thì mặc định 3007
+    if (!/^https?:\/\/[^\/]+:\d+/i.test(v) && /^http:\/\//i.test(v)) {
+      v = v.replace(/^(http:\/\/[^\/]+)/i, '$1:3007');
+    }
+    return v;
+  }
+  function load() { try { return localStorage.getItem(KEY) || ''; } catch (e) { return ''; } }
+  function save(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+  function open(url) { window.location.href = url; }
+
+  var saved = load();
+  var nav = (performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) || {};
+  var cameBack = nav.type === 'back_forward';
+
+  $('addr').value = saved.replace(/^http:\/\//, '').replace(/:3007$/, '');
+
+  $('go').onclick = function () {
+    var url = normalize($('addr').value);
+    if (!url) { $('err').textContent = 'Chưa nhập địa chỉ.'; return; }
+    save(url);
+    open(url);
+  };
+  $('addr').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('go').click(); });
+
+  if (saved && !cameBack) {
+    $('form').style.display = 'none';
+    $('auto').style.display = 'block';
+    $('saved').textContent = saved;
+    var timer = setTimeout(function () { open(saved); }, 1500);
+    $('change').onclick = function () {
+      clearTimeout(timer);
+      $('auto').style.display = 'none';
+      $('form').style.display = 'block';
+    };
+  }
+})();
+</script>
+</body>
 </html>

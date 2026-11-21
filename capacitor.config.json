@@ -1,0 +1,10 @@
+{
+  "appId": "com.nhacqua.live",
+  "appName": "Nhạc Theo Quà",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true,
+    "allowNavigation": ["*"]
+  }
+}
